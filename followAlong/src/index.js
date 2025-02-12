@@ -40,15 +40,44 @@ const groceries = [
 
 class App extends React.Component {
   // Class methods to update state
+  constructor(){
+    super();
+    this.state = {
+      groceries: groceries
+    }
+  }
+
+  /// Class methods to update state
+  addItem = (e, item) => {
+    e.preventDefault();
+    const newItem = {
+      name: item,
+      id: Date.now(),
+      purchased: false
+    };
+    this.setState({
+      groceries: [...this.state.groceries, newItem]});
+  }
+
+  toggleItem = itemId => {
+    console.log(itemId)
+    this.setState({...this.state, groceries: this.state.groceries.map(item => {
+      if(item.id === itemId){
+        return {...item, purchased: !item.purchased}
+      }
+      return item;
+    })})
+  }
   render() {
     return (
       <div className="App">
         <div className="header">
            <h1>Shopping List</h1>
-           <ListForm />
+           <ListForm addItem={this.addItem} />
          </div>
-        <GroceryList groceries={groceries} />
+        <GroceryList toggleItem={this.toggleItem} groceries={this.state.groceries} />
         <button className="clear-btn">Clear Purchased</button>
+        
        </div>
     );
   }
