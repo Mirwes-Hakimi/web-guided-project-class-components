@@ -68,6 +68,12 @@ class App extends React.Component {
       return item;
     })})
   }
+
+  clearPurchased = () => {
+    this.setState({...this.state, groceries: this.state.groceries.filter(item => {
+      if(!item.purchased) return item;
+    })})
+  }
   render() {
     return (
       <div className="App">
@@ -76,8 +82,7 @@ class App extends React.Component {
            <ListForm addItem={this.addItem} />
          </div>
         <GroceryList toggleItem={this.toggleItem} groceries={this.state.groceries} />
-        <button className="clear-btn">Clear Purchased</button>
-        
+        <button onClick={this.clearPurchased} className="clear-btn">Clear Purchased</button>
        </div>
     );
   }
